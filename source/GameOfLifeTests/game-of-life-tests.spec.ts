@@ -6,36 +6,52 @@ describe('my first test',()=>{
         expect(1).toEqual(1)
     })
 })
+
 describe('constructor',()=>{
-    it('should set up initial bored',async ()=>{
-        const startingBoard = [
-            [0,0,0,1,0],
-            [0,0,0,1,0],
-            [1,0,0,0,0],
-            [0,0,0,0,0],
-            [0,0,1,1,0]
-          ]
-          expect(new GameOfLife(startingBoard).board).toBe(startingBoard)
+    it('should expect empty board if empty board is parsed through',async ()=>{
+        // Arrange 
+        let board = []
+        //Act
+        let gameOfLife = new GameOfLife(board)
+        //Assert
+        expect(gameOfLife.board).toEqual(board)
+    })
+    it('should expect populated board if board is parsed through',async ()=>{
+        // Arrange 
+        let board = [[0,0,0],[0,1,0],[0,0,0]]
+        //Act
+        let gameOfLife = new GameOfLife(board)
+        //Assert
+        expect(gameOfLife.board).toEqual(board)
     })
 })
 describe('execute',()=>{
-    it('should kill cell if has fewer than two live neighbours',async ()=>{
-        // Arrange
-        const startingBoard = [
-            [0,0,0],
-            [0,1,0],
-            [0,0,0]
-          ]
-
-          const expected  = [
-            [0,0,0],
-            [0,0,0],
-            [0,0,0]
-          ]
-          // Act
-          const game = new GameOfLife(startingBoard)
-          game.execute;
-          // Assert
-          expect(game.board).toBe(expected)
+    it('should return an empty board if intial board is empty',async ()=>{
+        // Arrange 
+        let board = []
+        //Act
+        let gameOfLife = new GameOfLife(board)
+        let result = gameOfLife.execute()
+        //Assert
+        expect(result).toEqual(board)
+    })
+    it('should return all dead cells if inital board only has dead cells',async ()=>{
+        // Arrange 
+        let board = [[0,0,0],[0,0,0],[0,0,0]]
+        //Act
+        let gameOfLife = new GameOfLife(board)
+        let result = gameOfLife.execute()
+        //Assert
+        expect(result).toEqual(board)
+    })
+    it('should die if cell has fewer than two neighbours',async ()=>{
+        // Arrange 
+        let board = [[0,0,0],[0,1,0],[0,0,0]]
+        //Act
+        let gameOfLife = new GameOfLife(board)
+        let result = gameOfLife.execute()
+        //Assert
+        let expected = [[0,0,0],[0,0,0],[0,0,0]]
+        expect(result).toEqual(expected)
     })
 })
